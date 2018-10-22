@@ -36,6 +36,15 @@ public class ConstraintViolationSetAssert extends AbstractAssert<ConstraintViola
         return this;
     }
 
+    public ConstraintViolationSetAssert hasViolationSize(int noOfViolations) {
+        isNotNull();
+        if (actual.size() != noOfViolations) {
+            failWithMessage("Expecting %s violations, but there are %s violations", noOfViolations, actual.size());
+        }
+
+        return this;
+    }
+
     private boolean containsViolationWithPath(Set<? extends ConstraintViolation> violations, String path) {
         boolean result = false;
         for (ConstraintViolation violation : violations) {
