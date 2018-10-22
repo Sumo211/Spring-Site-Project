@@ -1,6 +1,7 @@
 package com.leon.infrastructure.security;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +17,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @Configuration
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    private static final String RESOURCE_ID = "xxx";
+    @Value("${xxx-resource.id:xxx}")
+    private String RESOURCE_ID;
 
     private final AuthenticationManager authenticationManager;
 
@@ -42,22 +44,28 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
-        security.passwordEncoder(passwordEncoder);
+        security
+                .tokenKeyAccess("permitAll()") // getting the public key for JWT
+                .checkTokenAccess("isAuthenticated()")
+                .passwordEncoder(passwordEncoder);
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        // @formatter:off
         clients.inMemory()
                 .withClient(securityProperties.getClientId())
-                .secret(passwordEncoder.encode(securityProperties.getSecret()))
-                .authorizedGrantTypes("password", "refresh_token")
-                .scopes("all")
-                .resourceIds(RESOURCE_ID);
+                    .secret(passwordEncoder.encode(securityProperties.getSecret()))
+                    .authorizedGrantTypes("password", "refresh_token")
+                    .scopes("read,write")
+                    .resourceIds(RESOURCE_ID);
+        // @formatter:on
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints.tokenStore(tokenStore)
+        endpoints
+                .tokenStore(tokenStore)
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService);
     }
