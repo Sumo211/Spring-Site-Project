@@ -76,7 +76,7 @@ public class UserRestControllerDocumentation {
         when(userService.getUser(Users.user().getId())).thenReturn(Optional.of(Users.user()));
 
         mvc.perform(get("/api/users/me")
-                .header(AUTHORIZATION_HEADER, bearer(accessToken)))
+                    .header(AUTHORIZATION_HEADER, bearer(accessToken)))
                 .andExpect(status().isOk())
                 .andDo(resultHandler.document(
                         responseFields(
@@ -99,8 +99,8 @@ public class UserRestControllerDocumentation {
         when(userService.createUser(email, password)).thenReturn(Users.newUser(email, password));
 
         mvc.perform(post("/api/users")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(dto)))
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())
                 .andDo(resultHandler.document(
                         requestFields(

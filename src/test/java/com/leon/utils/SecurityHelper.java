@@ -30,8 +30,8 @@ public final class SecurityHelper {
         params.add("grant_type", "password");
 
         ResultActions result = mvc.perform(post("/oauth/token")
-                .params(params)
-                .with(httpBasic(TEST_CLIENT_ID, TEST_CLIENT_SECRET))
+                    .params(params)
+                    .with(httpBasic(TEST_CLIENT_ID, TEST_CLIENT_SECRET))
                 .accept("application/json;charset=UTF-8"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"));
