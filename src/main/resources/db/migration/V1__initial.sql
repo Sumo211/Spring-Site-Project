@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS film (
     id INT8 PRIMARY KEY,
     code VARCHAR(10),
     type VARCHAR(50),
-    description TEXT
+    description TEXT,
+    cover BYTEA
 );
 
 CREATE TABLE IF NOT EXISTS rating (
