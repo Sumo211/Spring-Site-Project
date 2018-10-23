@@ -57,7 +57,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .withClient(securityProperties.getClientId())
                     .secret(passwordEncoder.encode(securityProperties.getSecret()))
                     .authorizedGrantTypes("password", "refresh_token")
-                    .scopes("read,write")
+                    .scopes("read", "write")
                     .resourceIds(RESOURCE_ID);
         // @formatter:on
     }

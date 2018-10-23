@@ -1,22 +1,21 @@
 package com.leon.film;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leon.film.web.FilmRestController;
-import com.leon.film.web.dto.FilmCreatedDto;
 import com.leon.user.Users;
 import com.leon.utils.ControllerTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.leon.utils.SecurityHelper.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,9 +26,6 @@ public class FilmRestControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @MockBean
     private FilmService filmService;
 
@@ -37,22 +33,28 @@ public class FilmRestControllerTest {
     public void testAdminIsAbleToCreateFilm_OK() throws Exception {
         String accessToken = obtainAccessToken(mvc, Users.ADMIN_EMAIL, Users.ADMIN_PWD);
 
-        String code = "xxx";
+        String code = "ARM";
         String type = "XXX";
-        String description = "des";
-        FilmCreatedDto dto = new FilmCreatedDto(code, type, description);
+        String description = "desc";
+        MockMultipartFile cover = createMockImage();
 
-        when(filmService.createFilm(eq(code), eq(type), eq(description))).thenReturn(new Film(new FilmId(1L), code, type, description));
+        when(filmService.createFilm(eq(code), eq(type), eq(description), any(MockMultipartFile.class))).thenReturn(new Film(new FilmId(1L), code, type, description));
 
-        mvc.perform(post("/api/films")
-                .header(AUTHORIZATION_HEADER, bearer(accessToken))
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsBytes(dto)))
+        mvc.perform(multipart("/api/films")
+                    .file(cover)
+                    .header(AUTHORIZATION_HEADER, bearer(accessToken))
+                    .param("code", code)
+                    .param("type", type)
+                    .param("description", description))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
                 .andExpect(jsonPath("code").value(code))
                 .andExpect(jsonPath("type").value(type))
                 .andExpect(jsonPath("description").value(description));
+    }
+
+    private MockMultipartFile createMockImage() {
+        return new MockMultipartFile("cover", "cover.png", "image/png", new byte[]{1, 2, 3});
     }
 
 }

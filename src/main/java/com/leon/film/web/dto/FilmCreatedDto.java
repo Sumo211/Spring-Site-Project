@@ -4,6 +4,7 @@ import com.leon.film.web.ValidFilmCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
@@ -16,5 +17,7 @@ public class FilmCreatedDto {
     private String type;
 
     private String description;
+
+    private MultipartFile cover;
 
 }

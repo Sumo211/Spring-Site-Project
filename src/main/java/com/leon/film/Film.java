@@ -4,9 +4,11 @@ import com.leon.infrastructure.jpa.AbstractEntity;
 import com.leon.rating.Rating;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import java.util.Set;
 
@@ -19,6 +21,11 @@ public class Film extends AbstractEntity<FilmId> {
     private String type;
 
     private String description;
+
+    @Lob
+    @Type(type="org.hibernate.type.BinaryType")
+    @Setter
+    private byte[] cover; // learning purpose only, bad practice in reality
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
     @Setter

@@ -42,9 +42,9 @@ public class OAuth2ServerConfigurationTest {
         String secret = "test-secret";
 
         mvc.perform(post("/oauth/token")
-                .params(params)
-                .with(httpBasic(clientId, secret))
-                .accept("application/json;charset=UTF-8"))
+                    .params(params)
+                    .with(httpBasic(clientId, secret))
+                    .accept("application/json;charset=UTF-8"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andDo(print())
@@ -52,7 +52,7 @@ public class OAuth2ServerConfigurationTest {
                 .andExpect(jsonPath("token_type").value("bearer"))
                 .andExpect(jsonPath("refresh_token").isString())
                 .andExpect(jsonPath("expires_in").isNumber())
-                .andExpect(jsonPath("scope").value("all"));
+                .andExpect(jsonPath("scope").value("read write"));
     }
 
 }

@@ -47,7 +47,7 @@ public class UserRestControllerTest {
         when(userService.getUser(Users.user().getId())).thenReturn(Optional.of(Users.user()));
 
         mvc.perform(get("/api/users/me")
-                .header(AUTHORIZATION_HEADER, bearer(accessToken)))
+                    .header(AUTHORIZATION_HEADER, bearer(accessToken)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").exists())
                 .andExpect(jsonPath("email").value(Users.USER_EMAIL))
@@ -66,8 +66,8 @@ public class UserRestControllerTest {
         when(userService.createUser(email, password)).thenReturn(Users.newUser(email, password));
 
         mvc.perform(post("/api/users")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(dto)))
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
                 .andExpect(jsonPath("email").value(email))
@@ -86,8 +86,8 @@ public class UserRestControllerTest {
         dto.setPassword(shortPwd);
 
         mvc.perform(post("/api/users")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(dto)))
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("errors[0].fieldName").value("password"));
 

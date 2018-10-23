@@ -4,6 +4,7 @@ import com.leon.film.web.dto.FilmCreatedDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.ConstraintViolation;
@@ -15,6 +16,7 @@ import java.util.Set;
 import static com.leon.utils.ConstraintViolationSetAssert.assertThat;
 
 @RunWith(SpringRunner.class)
+@ActiveProfiles(value = "TEST")
 public class FilmCodeValidatorTest {
 
     private Validator validator;
@@ -27,14 +29,14 @@ public class FilmCodeValidatorTest {
 
     @Test
     public void givenEmptyString_NotValid() {
-        FilmCreatedDto dto = new FilmCreatedDto("", "XXX", "desc");
+        FilmCreatedDto dto = new FilmCreatedDto("", "XXX", "desc", null);
         Set<ConstraintViolation<FilmCreatedDto>> violations = validator.validate(dto);
         assertThat(violations).hasViolationOnPath("code");
     }
 
     @Test
     public void givenWordPresent_OK() {
-        FilmCreatedDto dto = new FilmCreatedDto("ARM", "XXX", "desc");
+        FilmCreatedDto dto = new FilmCreatedDto("ARM", "XXX", "desc", null);
         Set<ConstraintViolation<FilmCreatedDto>> violations = validator.validate(dto);
         assertThat(violations).hasNoViolations();
     }

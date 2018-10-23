@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ActiveProfiles("INTEGRATION-TEST")
+@ActiveProfiles(value = "INTEGRATION-TEST")
 public class UserRepositoryTest {
 
     @PersistenceContext
