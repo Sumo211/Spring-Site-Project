@@ -4,6 +4,7 @@ import com.leon.film.Film;
 import com.leon.infrastructure.jpa.AbstractEntity;
 import com.leon.user.User;
 import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
+@ToString(exclude = {"user", "film"})
 public class Rating extends AbstractEntity<RatingId> {
 
     private int value;

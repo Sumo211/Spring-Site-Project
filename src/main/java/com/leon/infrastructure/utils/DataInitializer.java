@@ -5,19 +5,19 @@ import com.leon.user.UserRepository;
 import com.leon.user.UserRole;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile(value = "INTEGRATION-TEST")
-public class DbInitializer implements ApplicationRunner {
+@ConditionalOnProperty(prefix = "xxx-db", value = "init-data", havingValue = "true")
+public class DataInitializer implements ApplicationRunner {
 
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
 
-    public DbInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public DataInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }

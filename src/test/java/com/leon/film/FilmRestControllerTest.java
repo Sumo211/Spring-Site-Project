@@ -11,6 +11,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.OffsetDateTime;
+
 import static com.leon.utils.SecurityHelper.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -35,10 +37,11 @@ public class FilmRestControllerTest {
 
         String code = "ARM";
         String type = "XXX";
+        OffsetDateTime releaseDate = OffsetDateTime.parse("2018-10-27T20:00:00.000+00:00");
         String description = "desc";
         MockMultipartFile cover = createMockImage();
 
-        when(filmService.createFilm(eq(code), eq(type), eq(description), any(MockMultipartFile.class))).thenReturn(new Film(new FilmId(1L), code, type, description));
+        when(filmService.createFilm(eq(code), eq(type), any(OffsetDateTime.class), eq(description), any(MockMultipartFile.class))).thenReturn(new Film(new FilmId(1L), code, type, releaseDate, description));
 
         mvc.perform(multipart("/api/films")
                     .file(cover)
@@ -50,6 +53,7 @@ public class FilmRestControllerTest {
                 .andExpect(jsonPath("id").exists())
                 .andExpect(jsonPath("code").value(code))
                 .andExpect(jsonPath("type").value(type))
+                .andExpect(jsonPath("releaseDate").value(releaseDate))
                 .andExpect(jsonPath("description").value(description));
     }
 

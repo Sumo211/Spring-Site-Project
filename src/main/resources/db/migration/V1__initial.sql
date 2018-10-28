@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS film (
     id INT8 PRIMARY KEY,
     code VARCHAR(10),
     type VARCHAR(50),
+    release_date TIMESTAMP WITHOUT TIME ZONE,
     description TEXT,
     cover BYTEA
 );

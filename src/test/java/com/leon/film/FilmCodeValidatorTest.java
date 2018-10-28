@@ -11,6 +11,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.time.OffsetDateTime;
 import java.util.Set;
 
 import static com.leon.utils.ConstraintViolationSetAssert.assertThat;
@@ -29,14 +30,14 @@ public class FilmCodeValidatorTest {
 
     @Test
     public void givenEmptyString_NotValid() {
-        FilmCreatedDto dto = new FilmCreatedDto("", "XXX", "desc", null);
+        FilmCreatedDto dto = new FilmCreatedDto("", "XXX", OffsetDateTime.now(), "desc", null);
         Set<ConstraintViolation<FilmCreatedDto>> violations = validator.validate(dto);
         assertThat(violations).hasViolationOnPath("code");
     }
 
     @Test
     public void givenWordPresent_OK() {
-        FilmCreatedDto dto = new FilmCreatedDto("ARM", "XXX", "desc", null);
+        FilmCreatedDto dto = new FilmCreatedDto("ARM", "XXX", OffsetDateTime.now(), "desc", null);
         Set<ConstraintViolation<FilmCreatedDto>> violations = validator.validate(dto);
         assertThat(violations).hasNoViolations();
     }

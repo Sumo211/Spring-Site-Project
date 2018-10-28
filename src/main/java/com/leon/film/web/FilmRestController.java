@@ -28,7 +28,7 @@ public class FilmRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public FilmDto createFilm(@Valid FilmCreatedDto filmCreatedDto) throws IOException {
-        Film film = filmService.createFilm(filmCreatedDto.getCode(), filmCreatedDto.getType(),
+        Film film = filmService.createFilm(filmCreatedDto.getCode(), filmCreatedDto.getType(), filmCreatedDto.getReleaseDate(),
                 filmCreatedDto.getDescription(), filmCreatedDto.getCover());
         return FilmDto.fromFilm(film);
     }
