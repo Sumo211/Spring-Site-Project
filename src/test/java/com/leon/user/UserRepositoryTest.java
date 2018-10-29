@@ -42,11 +42,11 @@ public class UserRepositoryTest {
         User storedUser = userRepository.save(user);
 
         assertThat(storedUser).isNotNull();
-        assertThat(userRepository.count()).isEqualTo(1L);
+        assertThat(userRepository.count()).isEqualTo(6L);
 
         entityManager.flush();
-        assertThat(jdbcTemplate.queryForObject("SELECT COUNT(*) FROM xxx_user", Long.class)).isEqualTo(1L);
-        assertThat(jdbcTemplate.queryForObject("SELECT role FROM xxx_user", String.class)).isEqualTo("USER");
+        assertThat(jdbcTemplate.queryForObject("SELECT COUNT(*) FROM xxx_user", Long.class)).isEqualTo(6L);
+        assertThat(jdbcTemplate.queryForObject("SELECT role FROM xxx_user GROUP BY role", String.class)).isEqualTo("USER");
     }
 
     @Test

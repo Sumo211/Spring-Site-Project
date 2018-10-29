@@ -30,6 +30,7 @@ public class UserRestControllerIntegrationTest {
     public void testAdminIsUnableToCreateAFilmIfCoverImageIsTooBig() {
         String code = "ARM";
         String type = "XXX";
+        String releaseDate = "2018-10-27T20:00:00.000+00:00";
         String description = "desc";
 
         SecurityHelperForRestAssured.givenAuthenticatedUser(serverPort, "admin@mail.com", "pwd@123")
@@ -40,6 +41,7 @@ public class UserRestControllerIntegrationTest {
                         .build())
                 .formParam("code", code)
                 .formParam("type", type)
+                .formParam("releaseDate", releaseDate)
                 .formParam("description", description)
                 .post("/api/films")
                 .then()

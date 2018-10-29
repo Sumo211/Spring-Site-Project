@@ -17,6 +17,7 @@ public class ConstraintViolationSetAssert extends AbstractAssert<ConstraintViola
         return new ConstraintViolationSetAssert(actual);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public ConstraintViolationSetAssert hasViolationOnPath(String path) {
         isNotNull();
         if (!containsViolationWithPath(actual, path)) {
@@ -27,6 +28,7 @@ public class ConstraintViolationSetAssert extends AbstractAssert<ConstraintViola
         return this;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public ConstraintViolationSetAssert hasNoViolations() {
         isNotNull();
         if (!actual.isEmpty()) {

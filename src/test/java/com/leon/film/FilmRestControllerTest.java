@@ -37,23 +37,25 @@ public class FilmRestControllerTest {
 
         String code = "ARM";
         String type = "XXX";
-        OffsetDateTime releaseDate = OffsetDateTime.parse("2018-10-27T20:00:00.000+00:00");
+        String releaseDate = "2018-10-27T20:00:00.000+00:00";
         String description = "desc";
         MockMultipartFile cover = createMockImage();
 
-        when(filmService.createFilm(eq(code), eq(type), any(OffsetDateTime.class), eq(description), any(MockMultipartFile.class))).thenReturn(new Film(new FilmId(1L), code, type, releaseDate, description));
+        when(filmService.createFilm(eq(code), eq(type), any(OffsetDateTime.class), eq(description), any(MockMultipartFile.class)))
+                .thenReturn(new Film(new FilmId(1L), code, type, OffsetDateTime.parse(releaseDate), description));
 
         mvc.perform(multipart("/api/films")
                     .file(cover)
                     .header(AUTHORIZATION_HEADER, bearer(accessToken))
                     .param("code", code)
                     .param("type", type)
+                    .param("releaseDate", releaseDate)
                     .param("description", description))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
                 .andExpect(jsonPath("code").value(code))
                 .andExpect(jsonPath("type").value(type))
-                .andExpect(jsonPath("releaseDate").value(releaseDate))
+                .andExpect(jsonPath("releaseDate").value("2018-10-27T20:00:00Z"))
                 .andExpect(jsonPath("description").value(description));
     }
 
