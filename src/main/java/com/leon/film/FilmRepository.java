@@ -1,8 +1,7 @@
 package com.leon.film;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.leon.infrastructure.jpa.BaseRepository;
 
-public interface FilmRepository extends JpaRepository<Film, FilmId>, JpaSpecificationExecutor<Film>, CustomFilmRepository {
+public interface FilmRepository extends BaseRepository<Film, FilmId>, CustomFilmRepository {
 
 }
