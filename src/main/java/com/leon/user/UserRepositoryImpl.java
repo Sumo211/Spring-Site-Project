@@ -1,14 +1,11 @@
 package com.leon.user;
 
+import com.leon.infrastructure.jpa.SnowFlakeGenerator;
 import com.leon.infrastructure.jpa.UniqueIdGenerator;
 
 public class UserRepositoryImpl implements CustomUserRepository {
 
-    private final UniqueIdGenerator<Long> generator;
-
-    public UserRepositoryImpl(UniqueIdGenerator<Long> generator) {
-        this.generator = generator;
-    }
+    private final UniqueIdGenerator<Long> generator = new SnowFlakeGenerator();
 
     @Override
     public UserId getNextId() {
