@@ -1,5 +1,6 @@
 package com.leon.user;
 
+import com.leon.infrastructure.jpa.JpaConfiguration;
 import com.leon.infrastructure.jpa.SnowFlakeGenerator;
 import com.leon.infrastructure.jpa.UniqueIdGenerator;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@Import(JpaConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles(value = "INTEGRATION-TEST")
 public class UserRepositoryTest {
@@ -82,7 +85,7 @@ public class UserRepositoryTest {
     @TestConfiguration
     static class TestConfig {
 
-        @Bean
+        @Bean("snowFlakeGenerator")
         public UniqueIdGenerator<Long> uniqueIdGenerator() {
             return new SnowFlakeGenerator();
         }

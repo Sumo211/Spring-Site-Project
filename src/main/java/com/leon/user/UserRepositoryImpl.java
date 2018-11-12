@@ -1,11 +1,17 @@
 package com.leon.user;
 
-import com.leon.infrastructure.jpa.SnowFlakeGenerator;
 import com.leon.infrastructure.jpa.UniqueIdGenerator;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
-public class UserRepositoryImpl implements CustomUserRepository {
+@Repository
+public class UserRepositoryImpl implements UserRepositoryCustom {
 
-    private final UniqueIdGenerator<Long> generator = new SnowFlakeGenerator();
+    private final UniqueIdGenerator<Long> generator;
+
+    public UserRepositoryImpl(@Qualifier("snowFlakeGenerator") UniqueIdGenerator<Long> generator) {
+        this.generator = generator;
+    }
 
     @Override
     public UserId getNextId() {

@@ -1,6 +1,5 @@
 package com.leon.infrastructure.jpa;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -11,12 +10,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class BaseRepositoryImpl<T, ID extends EntityId> extends SimpleJpaRepository<T, EntityId> implements BaseRepository<T, ID> {
+public class BaseRepositoryImpl<T extends Entity, ID extends EntityId> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
 
     private final EntityManager entityManager;
-
-    @Autowired
-    private UniqueIdGenerator<ID> uniqueIdGenerator;
 
     public BaseRepositoryImpl(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
@@ -28,10 +24,6 @@ public class BaseRepositoryImpl<T, ID extends EntityId> extends SimpleJpaReposit
         TypedQuery<T> query = getQuery(spec, Sort.unsorted());
         query.setHint(entityGraphType.getKey(), entityManager.getEntityGraph(entityGraphName));
         return query.getResultList();
-    }
-
-    ID getNext() {
-        return uniqueIdGenerator.getNextUniqueId();
     }
 
 }

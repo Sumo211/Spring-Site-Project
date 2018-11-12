@@ -1,6 +1,6 @@
 package com.leon.film;
 
-public interface CustomFilmRepository {
+public interface FilmRepositoryCustom {
 
     FilmId getNextId();
 

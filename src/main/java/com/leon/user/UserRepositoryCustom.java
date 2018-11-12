@@ -1,6 +1,6 @@
 package com.leon.user;
 
-public interface CustomUserRepository {
+public interface UserRepositoryCustom {
 
     UserId getNextId();
 

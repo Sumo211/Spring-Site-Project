@@ -9,7 +9,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.util.List;
 
 @NoRepositoryBean
-public interface BaseRepository<T, ID extends EntityId> extends JpaRepository<T, EntityId>, JpaSpecificationExecutor<T> {
+public interface BaseRepository<T extends Entity, ID extends EntityId> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
 
     List<T> findAll(Specification<T> spec, EntityGraph.EntityGraphType entityGraphType, String entityGraphName);
 
