@@ -1,15 +1,11 @@
 package com.leon.user;
 
 import com.leon.infrastructure.jpa.JpaConfiguration;
-import com.leon.infrastructure.jpa.SnowFlakeGenerator;
-import com.leon.infrastructure.jpa.UniqueIdGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
@@ -80,16 +76,6 @@ public class UserRepositoryTest {
         Optional<User> storedUser = userRepository.findByEmailIgnoreCase(user.getEmail().toUpperCase(Locale.ENGLISH));
 
         assertThat(storedUser).isNotEmpty().contains(user);
-    }
-
-    @TestConfiguration
-    static class TestConfig {
-
-        @Bean("snowFlakeGenerator")
-        public UniqueIdGenerator<Long> uniqueIdGenerator() {
-            return new SnowFlakeGenerator();
-        }
-
     }
 
 }

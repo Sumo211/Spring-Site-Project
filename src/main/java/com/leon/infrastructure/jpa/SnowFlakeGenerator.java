@@ -1,7 +1,5 @@
 package com.leon.infrastructure.jpa;
 
-import org.springframework.stereotype.Component;
-
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.security.SecureRandom;
@@ -9,7 +7,6 @@ import java.time.Instant;
 import java.util.Enumeration;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Component
 public class SnowFlakeGenerator implements UniqueIdGenerator<Long> {
 
     private static final AtomicInteger counter = new AtomicInteger(new SecureRandom().nextInt());

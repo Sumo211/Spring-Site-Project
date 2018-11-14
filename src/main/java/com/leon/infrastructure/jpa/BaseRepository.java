@@ -13,4 +13,6 @@ public interface BaseRepository<T extends Entity, ID extends EntityId> extends J
 
     List<T> findAll(Specification<T> spec, EntityGraph.EntityGraphType entityGraphType, String entityGraphName);
 
+    ID getNextId();
+
 }

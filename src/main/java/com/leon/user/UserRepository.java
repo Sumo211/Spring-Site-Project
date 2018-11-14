@@ -4,7 +4,7 @@ import com.leon.infrastructure.jpa.BaseRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends BaseRepository<User, UserId>, UserRepositoryCustom {
+public interface UserRepository extends BaseRepository<User, UserId> {
 
     Optional<User> findByEmailIgnoreCase(String email);
 
